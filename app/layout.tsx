@@ -1,6 +1,8 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import Link from 'next/link';
 import { Button } from "@/components/ui/button"
+import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeToggle } from "@/components/theme-toggle";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -14,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Finance Tracker",
+  title: "Yardstick Finance",
   description: "Track your personal finances",
 };
 
@@ -24,57 +26,74 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-background font-sans`}
       >
-        <div className="min-h-screen bg-gray-100 dark:bg-zinc-900">
-          <header className="bg-white dark:bg-zinc-800 shadow">
-            <div className="container mx-auto px-4 py-4">
-              <nav className="flex justify-between items-center">
-                <Link 
-                  href="/" 
-                  className="text-xl font-bold text-zinc-900 dark:text-white"
-                >
-                  Finance Tracker
-                </Link>
-                <ul className="flex space-x-6">
-                  <li>
-                    <Link href="/" passHref>
-                      <Button asChild variant="outline">
-                        <span>Dashboard</span>
-                      </Button>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/transactions" passHref>
-                      <Button asChild variant="outline">
-                        <span>Transactions</span>
-                      </Button>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/budgets" passHref>
-                      <Button asChild variant="outline">
-                        <span>Budgets</span>
-                      </Button>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/transactions/new" passHref>
-                      <Button asChild variant="outline">
-                        <span>Add Transaction</span>
-                      </Button>
-                    </Link>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-          </header>
-          <main>
-            {children}
-          </main>
-        </div>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <div className="flex min-h-screen flex-col">
+            <header className="sticky top-0 z-10 border-b bg-background">
+              <div className="container mx-auto px-4 py-3">
+                <nav className="flex items-center justify-between">
+                  <Link 
+                    href="/" 
+                    className="text-xl font-bold"
+                  >
+                    Yardstick Finance
+                  </Link>
+                  <div className="flex items-center gap-4">
+                    <ul className="hidden md:flex space-x-4">
+                      <li>
+                        <Link href="/" passHref>
+                          <Button asChild variant="ghost" size="sm">
+                            <span>Dashboard</span>
+                          </Button>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link href="/transactions" passHref>
+                          <Button asChild variant="ghost" size="sm">
+                            <span>Transactions</span>
+                          </Button>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link href="/budgets" passHref>
+                          <Button asChild variant="ghost" size="sm">
+                            <span>Budgets</span>
+                          </Button>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link href="/settings" passHref>
+                          <Button asChild variant="ghost" size="sm">
+                            <span>Settings</span>
+                          </Button>
+                        </Link>
+                      </li>
+                    </ul>
+                    <div className="flex items-center gap-2">
+                      <Link href="/transactions/new" passHref>
+                        <Button asChild size="sm">
+                          <span>Add Transaction</span>
+                        </Button>
+                      </Link>
+                      <ThemeToggle />
+                    </div>
+                  </div>
+                </nav>
+              </div>
+            </header>
+            <main className="flex-1 container mx-auto py-8 px-4">
+              {children}
+            </main>
+            <footer className="border-t bg-background py-6">
+              <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
+                &copy; {new Date().getFullYear()} Yardstick Finance. All rights reserved.
+              </div>
+            </footer>
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );
