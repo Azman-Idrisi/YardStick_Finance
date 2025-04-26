@@ -8,14 +8,20 @@ A modern personal finance application built with Next.js that helps users track 
 - 💰 Transaction management
 - 📅 Budget planning and tracking
 - 📈 Visual reports with charts and graphs
-- 🌙 Dark mode support
+- �� Dark mode support
+- 🔄 Real-time budget updates
+- 📱 Responsive design
 
 ## Tech Stack
 
-- **Frontend**: Next.js, React, TypeScript
-- **UI Components**: Shadcn UI
+- **Frontend**: Next.js 14.1.0, React 18.2.0, TypeScript
+- **UI Components**: Shadcn UI, Radix UI
+- **Forms**: React Hook Form
+- **Date Picker**: React Day Picker
 - **Charts**: Recharts
 - **Styling**: Tailwind CSS
+- **Database**: MongoDB with Mongoose
+- **State Management**: React Context
 
 ## Getting Started
 
@@ -23,6 +29,7 @@ A modern personal finance application built with Next.js that helps users track 
 
 - Node.js 18 or later
 - npm or yarn
+- MongoDB connection string
 
 ### Installation
 
@@ -41,7 +48,13 @@ npm install
 yarn install
 ```
 
-3. Start the development server
+3. Create a `.env.local` file in the root directory and add your MongoDB connection string:
+
+```env
+MONGODB_URI=your_mongodb_connection_string
+```
+
+4. Start the development server
 
 ```bash
 npm run dev
@@ -49,16 +62,23 @@ npm run dev
 yarn dev
 ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser
+5. Open [http://localhost:3000](http://localhost:3000) in your browser
 
 ## Project Structure
 
 - `app/` - Next.js app directory containing routes and components
   - `components/` - Reusable UI components
-  - `api/` - API routes
-  - `utils/` - Utility functions
+  - `api/` - API routes for budgets and transactions
+  - `lib/` - Database models and utilities
 - `components/ui/` - Shadcn UI components
 - `public/` - Static assets
+
+## Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
 
 ## License
 
