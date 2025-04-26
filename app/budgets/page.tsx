@@ -67,6 +67,11 @@ export default function BudgetsPage() {
     }
   };
 
+  const handleEdit = (budget: Budget) => {
+    // For now, we'll just show an alert since we don't have an edit form yet
+    alert(`Editing budget for ${budget.category} in ${budget.month}`);
+  };
+
   // Group budgets by month
   const budgetsByMonth = budgets.reduce<Record<string, Budget[]>>((acc, budget) => {
     if (!acc[budget.month]) {
@@ -80,14 +85,14 @@ export default function BudgetsPage() {
   const sortedMonths = Object.keys(budgetsByMonth).sort().reverse();
 
   return (
-    <main className="container mx-auto py-8 px-4">
-      <h1 className="text-3xl font-bold mb-6">Budget Management</h1>
+    <main className="container mx-auto py-6 md:py-8 px-4">
+      <h1 className="text-2xl md:text-3xl font-bold mb-6">Budget Management</h1>
       
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
         <div className="lg:col-span-2">
           <Card>
             <CardHeader>
-              <CardTitle>Monthly Budgets</CardTitle>
+              <CardTitle className="text-lg md:text-xl">Monthly Budgets</CardTitle>
             </CardHeader>
             <CardContent>
               {loading ? (
@@ -99,40 +104,44 @@ export default function BudgetsPage() {
                   No budgets found. Add your first budget to get started.
                 </div>
               ) : (
-                <div className="space-y-8">
-                  {sortedMonths.map(month => {
-                    const monthBudgets = budgetsByMonth[month];
-                    const monthDate = new Date(parseInt(month.substring(0, 4)), parseInt(month.substring(5, 7)) - 1);
-                    const monthName = monthDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-                    
-                    return (
-                      <div key={month} className="space-y-4">
-                        <h3 className="text-xl font-semibold">{monthName}</h3>
-                        <div className="divide-y">
-                          {monthBudgets.map(budget => (
-                            <div key={budget._id} className="py-3 grid grid-cols-1 md:grid-cols-4 gap-3 items-center">
-                              <div className="capitalize font-medium">{budget.category}</div>
-                              <div>{formatCurrency(budget.amount)}</div>
-                              <div>
-                                <span className="inline-flex items-center rounded-md bg-blue-100 px-2 py-1 text-xs font-medium text-blue-700">
-                                  {month}
-                                </span>
-                              </div>
-                              <div className="text-right">
-                                <Button 
-                                  variant="destructive" 
-                                  size="sm"
-                                  onClick={() => handleDelete(budget._id)}
-                                >
-                                  Delete
-                                </Button>
-                              </div>
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b">
+                        <th className="text-left py-2 px-2 md:px-4">Category</th>
+                        <th className="text-left py-2 px-2 md:px-4">Month</th>
+                        <th className="text-left py-2 px-2 md:px-4">Amount</th>
+                        <th className="text-left py-2 px-2 md:px-4">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {budgets.map((budget) => (
+                        <tr key={budget._id} className="border-b">
+                          <td className="py-2 px-2 md:px-4 capitalize">{budget.category}</td>
+                          <td className="py-2 px-2 md:px-4">{budget.month}</td>
+                          <td className="py-2 px-2 md:px-4">{formatCurrency(budget.amount)}</td>
+                          <td className="py-2 px-2 md:px-4">
+                            <div className="flex gap-2">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => handleEdit(budget)}
+                              >
+                                Edit
+                              </Button>
+                              <Button
+                                variant="destructive"
+                                size="sm"
+                                onClick={() => handleDelete(budget._id)}
+                              >
+                                Delete
+                              </Button>
                             </div>
-                          ))}
-                        </div>
-                      </div>
-                    );
-                  })}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               )}
             </CardContent>

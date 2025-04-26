@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Button } from "@/components/ui/button"
 import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { MobileMenu } from "@/app/components/MobileMenu";
 import "./globals.css";
 
 const inter = Inter({
@@ -36,8 +37,9 @@ export default function RootLayout({
                   >
                     Yardstick Finance
                   </Link>
-                  <div className="flex items-center gap-4">
-                    <ul className="hidden md:flex space-x-4">
+                  
+                  <div className="hidden md:flex items-center space-x-4">
+                    <ul className="flex space-x-4">
                       <li>
                         <Link href="/" passHref>
                           <Button asChild variant="ghost" size="sm">
@@ -76,13 +78,24 @@ export default function RootLayout({
                       <ThemeToggle />
                     </div>
                   </div>
+
+                  {/* Mobile menu button */}
+                  <div className="md:hidden flex items-center gap-2">
+                    <Link href="/transactions/new" passHref>
+                      <Button asChild size="sm">
+                        <span>Add</span>
+                      </Button>
+                    </Link>
+                    <ThemeToggle />
+                    <MobileMenu />
+                  </div>
                 </nav>
               </div>
             </header>
             <main className="flex-1 container mx-auto py-8 px-4">
               {children}
             </main>
-            <footer className="border-t bg-background py-6">
+            <footer className="border-t py-6">
               <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
                 &copy; {new Date().getFullYear()} Yardstick Finance. All rights reserved.
               </div>

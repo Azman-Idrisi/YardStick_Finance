@@ -226,19 +226,19 @@ export default function TransactionsPage() {
   }
 
   return (
-    <div className="container mx-auto py-10 px-4">
-      <div className="flex justify-between items-center mb-6">
+    <div className="container mx-auto py-6 md:py-10 px-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <h1 className="text-2xl font-bold">Transactions</h1>
         <Link href="/transactions/new">
-          <Button>Add New Transaction</Button>
+          <Button className="w-full sm:w-auto">Add New Transaction</Button>
         </Link>
       </div>
 
-      <div className="space-y-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="bg-white dark:bg-zinc-800 rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-semibold mb-4">Monthly Overview</h2>
-            <div className="h-80">
+      <div className="space-y-6 md:space-y-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+          <div className="bg-white dark:bg-zinc-800 rounded-lg shadow-md p-4 md:p-6">
+            <h2 className="text-lg md:text-xl font-semibold mb-4">Monthly Overview</h2>
+            <div className="h-60 md:h-80">
               {monthlyData.length > 0 ? (
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={monthlyData}>
@@ -262,9 +262,9 @@ export default function TransactionsPage() {
             </div>
           </div>
 
-          <div className="bg-white dark:bg-zinc-800 rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-semibold mb-4">Expense Categories</h2>
-            <div className="h-80">
+          <div className="bg-white dark:bg-zinc-800 rounded-lg shadow-md p-4 md:p-6">
+            <h2 className="text-lg md:text-xl font-semibold mb-4">Expense Categories</h2>
+            <div className="h-60 md:h-80">
               {categoryData.length > 0 ? (
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
@@ -273,7 +273,7 @@ export default function TransactionsPage() {
                       cx="50%"
                       cy="50%"
                       labelLine={false}
-                      outerRadius={80}
+                      outerRadius={60}
                       fill="#8884d8"
                       dataKey="value"
                       label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
@@ -295,44 +295,29 @@ export default function TransactionsPage() {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-zinc-800 rounded-lg shadow-md overflow-hidden">
-          <h2 className="text-xl font-semibold p-6 border-b dark:border-zinc-700">Transaction History</h2>
+        {/* Transaction List */}
+        <div className="bg-white dark:bg-zinc-800 rounded-lg shadow-md p-4 md:p-6">
+          <h2 className="text-lg md:text-xl font-semibold mb-4">All Transactions</h2>
           <div className="overflow-x-auto">
-            <table className="w-full text-sm text-left">
-              <thead className="text-xs uppercase bg-gray-50 dark:bg-zinc-700">
-                <tr>
-                  <th className="px-6 py-3">Date</th>
-                  <th className="px-6 py-3">Description</th>
-                  <th className="px-6 py-3">Category</th>
-                  <th className="px-6 py-3 text-right">Amount</th>
-                  <th className="px-6 py-3 text-right">Actions</th>
+            <table className="w-full">
+              <thead>
+                <tr className="border-b">
+                  <th className="text-left py-2 px-2 md:px-4">Date</th>
+                  <th className="text-left py-2 px-2 md:px-4">Description</th>
+                  <th className="text-left py-2 px-2 md:px-4">Category</th>
+                  <th className="text-left py-2 px-2 md:px-4">Amount</th>
                 </tr>
               </thead>
               <tbody>
                 {transactions.map((transaction) => (
-                  <tr
-                    key={transaction._id}
-                    className="border-b dark:border-zinc-700 hover:bg-gray-50 dark:hover:bg-zinc-600"
-                  >
-                    <td className="px-6 py-4">{formatDate(transaction.date)}</td>
-                    <td className="px-6 py-4">{transaction.description}</td>
-                    <td className="px-6 py-4 capitalize">{transaction.category}</td>
-                    <td className={`px-6 py-4 text-right ${
+                  <tr key={transaction._id} className="border-b">
+                    <td className="py-2 px-2 md:px-4">{formatDate(transaction.date)}</td>
+                    <td className="py-2 px-2 md:px-4">{transaction.description}</td>
+                    <td className="py-2 px-2 md:px-4">{transaction.category}</td>
+                    <td className={`py-2 px-2 md:px-4 ${
                       transaction.type === 'income' ? 'text-green-600' : 'text-red-600'
                     }`}>
-                      {transaction.type === 'income' ? '+' : '-'} {formatCurrency(transaction.amount)}
-                    </td>
-                    <td className="px-6 py-4 text-right space-x-2">
-                      <Link href={`/transactions/edit/${transaction._id}`}>
-                        <Button variant="outline" size="sm">Edit</Button>
-                      </Link>
-                      <Button 
-                        variant="destructive" 
-                        size="sm"
-                        onClick={() => handleDelete(transaction._id)}
-                      >
-                        Delete
-                      </Button>
+                      {formatCurrency(transaction.amount)}
                     </td>
                   </tr>
                 ))}

@@ -347,40 +347,40 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="grid gap-6">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div className="grid gap-4 md:gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
         <Card>
-          <CardHeader className="pb-5">
+          <CardHeader className="pb-4 md:pb-5">
             <CardDescription>Total Balance</CardDescription>
-            <CardTitle className="text-3xl">{formatCurrency(summary.totalBalance)}</CardTitle>
+            <CardTitle className="text-2xl md:text-3xl">{formatCurrency(summary.totalBalance)}</CardTitle>
           </CardHeader>
         </Card>
         
         <Card>
-          <CardHeader className="pb-5">
+          <CardHeader className="pb-4 md:pb-5">
             <CardDescription>Income</CardDescription>
-            <CardTitle className="text-3xl text-green-600">{formatCurrency(summary.totalIncome)}</CardTitle>
+            <CardTitle className="text-2xl md:text-3xl text-green-600">{formatCurrency(summary.totalIncome)}</CardTitle>
           </CardHeader>
         </Card>
         
         <Card>
-          <CardHeader className="pb-5">
+          <CardHeader className="pb-4 md:pb-5">
             <CardDescription>Expenses</CardDescription>
-            <CardTitle className="text-3xl text-red-600">{formatCurrency(summary.totalExpenses)}</CardTitle>
+            <CardTitle className="text-2xl md:text-3xl text-red-600">{formatCurrency(summary.totalExpenses)}</CardTitle>
           </CardHeader>
         </Card>
       </div>
 
       {/* Budget vs. Actual Expenses Chart */}
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>Budget vs. Actual Expenses (Current Month)</CardTitle>
+        <CardHeader className="flex flex-col md:flex-row md:items-center justify-between gap-2 md:gap-0">
+          <CardTitle className="text-lg md:text-xl">Budget vs. Actual Expenses</CardTitle>
           <Link href="/budgets" className="text-blue-600 hover:underline text-sm">
             Manage Budgets
           </Link>
         </CardHeader>
         <CardContent>
-          <div className="h-80">
+          <div className="h-60 md:h-80">
             {summary.budgetComparison.length > 0 ? (
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
@@ -420,14 +420,14 @@ export default function Dashboard() {
         </CardContent>
       </Card>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
         {/* Monthly Income vs Expenses */}
         <Card>
           <CardHeader>
-            <CardTitle>Income vs Expenses</CardTitle>
+            <CardTitle className="text-lg md:text-xl">Income vs Expenses</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-80">
+            <div className="h-60 md:h-80">
               {summary.monthlyData.length > 0 ? (
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={summary.monthlyData}>
@@ -451,10 +451,10 @@ export default function Dashboard() {
         {/* Category Breakdown Chart */}
         <Card>
           <CardHeader>
-            <CardTitle>Expense Categories</CardTitle>
+            <CardTitle className="text-lg md:text-xl">Expense Categories</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-80">
+            <div className="h-60 md:h-80">
               {summary.categoryData.length > 0 ? (
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
@@ -463,7 +463,7 @@ export default function Dashboard() {
                       cx="50%"
                       cy="50%"
                       labelLine={false}
-                      outerRadius={80}
+                      outerRadius={60}
                       fill="#8884d8"
                       dataKey="value"
                       label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
@@ -487,11 +487,11 @@ export default function Dashboard() {
       </div>
 
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>Recent Transactions</CardTitle>
-          <a href="/transactions" className="text-blue-600 hover:underline text-sm">
+        <CardHeader className="flex flex-col md:flex-row md:items-center justify-between gap-2 md:gap-0">
+          <CardTitle className="text-lg md:text-xl">Recent Transactions</CardTitle>
+          <Link href="/transactions" className="text-blue-600 hover:underline text-sm">
             View All
-          </a>
+          </Link>
         </CardHeader>
         <CardContent>
           <TransactionList limit={5} />
