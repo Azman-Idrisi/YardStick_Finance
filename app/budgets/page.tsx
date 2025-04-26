@@ -105,7 +105,7 @@ export default function BudgetsPage() {
                 </div>
               ) : (
                 <div className="overflow-x-auto">
-                  <table className="w-full">
+                  <table className="min-w-full w-full">
                     <thead>
                       <tr className="border-b">
                         <th className="text-left py-2 px-2 md:px-4">Category</th>

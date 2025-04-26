@@ -85,13 +85,13 @@ function renderEmptyState() {
 function renderTransactionTable(transactions: Transaction[]) {
   return (
     <div className="overflow-x-auto">
-      <table className="w-full text-sm text-left">
+      <table className="min-w-full w-full text-sm text-left">
         <thead className="text-xs uppercase bg-zinc-50 dark:bg-zinc-700">
           <tr>
-            <th className="px-6 py-3">Date</th>
-            <th className="px-6 py-3">Description</th>
-            <th className="px-6 py-3">Category</th>
-            <th className="px-6 py-3 text-right">Amount</th>
+            <th className="px-2 sm:px-4 py-3">Date</th>
+            <th className="px-2 sm:px-4 py-3">Description</th>
+            <th className="px-2 sm:px-4 py-3">Category</th>
+            <th className="px-2 sm:px-4 py-3 text-right">Amount</th>
           </tr>
         </thead>
         <tbody>
@@ -100,10 +100,10 @@ function renderTransactionTable(transactions: Transaction[]) {
               key={transaction._id}
               className="border-b dark:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-600"
             >
-              <td className="px-6 py-4">{formatDate(transaction.date)}</td>
-              <td className="px-6 py-4">{transaction.description}</td>
-              <td className="px-6 py-4">{transaction.category}</td>
-              <td className={`px-6 py-4 text-right ${
+              <td className="px-2 sm:px-4 py-4">{formatDate(transaction.date)}</td>
+              <td className="px-2 sm:px-4 py-4">{transaction.description}</td>
+              <td className="px-2 sm:px-4 py-4">{transaction.category}</td>
+              <td className={`px-2 sm:px-4 py-4 text-right ${
                 getAmountColorClass(transaction.type)
               }`}>
                 {getAmountPrefix(transaction.type)} {formatCurrency(transaction.amount)}

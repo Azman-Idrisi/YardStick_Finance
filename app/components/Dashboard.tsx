@@ -372,7 +372,7 @@ export default function Dashboard() {
       </div>
 
       {/* Budget vs. Actual Expenses Chart */}
-      <Card>
+      <Card className="w-full">
         <CardHeader className="flex flex-col md:flex-row md:items-center justify-between gap-2 md:gap-0">
           <CardTitle className="text-lg md:text-xl">Budget vs. Actual Expenses</CardTitle>
           <Link href="/budgets" className="text-blue-600 hover:underline text-sm">
@@ -380,107 +380,113 @@ export default function Dashboard() {
           </Link>
         </CardHeader>
         <CardContent>
-          <div className="h-60 md:h-80">
-            {summary.budgetComparison.length > 0 ? (
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                  data={summary.budgetComparison}
-                  margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <Tooltip content={<BudgetComparisonTooltip />} />
-                  <Legend />
-                  <Bar dataKey="budget" fill="#8884d8" name="Budget" />
-                  <Bar 
-                    dataKey="actual" 
-                    name="Actual"
-                    fill="#82ca9d"
-                    isAnimationActive={true}
+          <div className="overflow-x-auto w-full">
+            <div className="h-60 md:h-80 min-w-[320px] w-full">
+              {summary.budgetComparison.length > 0 ? (
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart
+                    data={summary.budgetComparison}
+                    margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
                   >
-                    {summary.budgetComparison.map((entry, index) => (
-                      <Cell 
-                        key={`cell-${index}`} 
-                        fill={entry.overBudget ? '#FF8042' : '#82ca9d'} 
-                      />
-                    ))}
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
-            ) : (
-              <div className="flex flex-col items-center justify-center h-full text-gray-500 space-y-4">
-                <p>No budget data available for current month</p>
-                <Link href="/budgets">
-                  <Button variant="outline">Set Up Budgets</Button>
-                </Link>
-              </div>
-            )}
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip content={<BudgetComparisonTooltip />} />
+                    <Legend />
+                    <Bar dataKey="budget" fill="#8884d8" name="Budget" />
+                    <Bar 
+                      dataKey="actual" 
+                      name="Actual"
+                      fill="#82ca9d"
+                      isAnimationActive={true}
+                    >
+                      {summary.budgetComparison.map((entry, index) => (
+                        <Cell 
+                          key={`cell-${index}`} 
+                          fill={entry.overBudget ? '#FF8042' : '#82ca9d'} 
+                        />
+                      ))}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              ) : (
+                <div className="flex flex-col items-center justify-center h-full text-gray-500 space-y-4">
+                  <p>No budget data available for current month</p>
+                  <Link href="/budgets">
+                    <Button variant="outline">Set Up Budgets</Button>
+                  </Link>
+                </div>
+              )}
+            </div>
           </div>
         </CardContent>
       </Card>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 w-full">
         {/* Monthly Income vs Expenses */}
-        <Card>
+        <Card className="w-full">
           <CardHeader>
             <CardTitle className="text-lg md:text-xl">Income vs Expenses</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-60 md:h-80">
-              {summary.monthlyData.length > 0 ? (
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={summary.monthlyData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <Tooltip formatter={(value) => formatCurrency(value as number)} />
-                    <Bar dataKey="income" fill="#4ade80" name="Income" />
-                    <Bar dataKey="expense" fill="#f87171" name="Expense" />
-                  </BarChart>
-                </ResponsiveContainer>
-              ) : (
-                <div className="flex items-center justify-center h-full text-gray-500">
-                  Not enough data to display chart
-                </div>
-              )}
+            <div className="overflow-x-auto w-full">
+              <div className="h-60 md:h-80 min-w-[320px] w-full">
+                {summary.monthlyData.length > 0 ? (
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={summary.monthlyData}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="name" />
+                      <YAxis />
+                      <Tooltip formatter={(value) => formatCurrency(value as number)} />
+                      <Bar dataKey="income" fill="#4ade80" name="Income" />
+                      <Bar dataKey="expense" fill="#f87171" name="Expense" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                ) : (
+                  <div className="flex items-center justify-center h-full text-gray-500">
+                    Not enough data to display chart
+                  </div>
+                )}
+              </div>
             </div>
           </CardContent>
         </Card>
         
         {/* Category Breakdown Chart */}
-        <Card>
+        <Card className="w-full">
           <CardHeader>
             <CardTitle className="text-lg md:text-xl">Expense Categories</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-60 md:h-80">
-              {summary.categoryData.length > 0 ? (
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie
-                      data={summary.categoryData}
-                      cx="50%"
-                      cy="50%"
-                      labelLine={false}
-                      outerRadius={60}
-                      fill="#8884d8"
-                      dataKey="value"
-                      label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
-                    >
-                      {summary.categoryData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
-                      ))}
-                    </Pie>
-                    <Tooltip content={<CustomTooltip />} />
-                    <Legend />
-                  </PieChart>
-                </ResponsiveContainer>
-              ) : (
-                <div className="flex items-center justify-center h-full text-gray-500">
-                  Not enough data to display chart
-                </div>
-              )}
+            <div className="overflow-x-auto w-full">
+              <div className="h-60 md:h-80 min-w-[320px] w-full">
+                {summary.categoryData.length > 0 ? (
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={summary.categoryData}
+                        cx="50%"
+                        cy="50%"
+                        labelLine={false}
+                        outerRadius={60}
+                        fill="#8884d8"
+                        dataKey="value"
+                        label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
+                      >
+                        {summary.categoryData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={entry.color} />
+                        ))}
+                      </Pie>
+                      <Tooltip content={<CustomTooltip />} />
+                      <Legend />
+                    </PieChart>
+                  </ResponsiveContainer>
+                ) : (
+                  <div className="flex items-center justify-center h-full text-gray-500">
+                    Not enough data to display chart
+                  </div>
+                )}
+              </div>
             </div>
           </CardContent>
         </Card>

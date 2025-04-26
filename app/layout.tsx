@@ -23,14 +23,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </head>
       <body
         className={`${inter.variable} antialiased min-h-screen bg-background font-sans`}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <div className="flex min-h-screen flex-col">
-            <header className="sticky top-0 z-10 border-b bg-background">
-              <div className="container mx-auto px-4 py-3">
-                <nav className="flex items-center justify-between">
+            <header className="sticky top-0 z-10 border-b bg-background w-full">
+              <div className="container mx-auto px-2 sm:px-4 py-3 w-full">
+                <nav className="flex items-center justify-between w-full">
                   <Link 
                     href="/" 
                     className="text-xl font-bold"
@@ -38,8 +41,9 @@ export default function RootLayout({
                     Yardstick Finance
                   </Link>
                   
-                  <div className="hidden md:flex items-center space-x-4">
-                    <ul className="flex space-x-4">
+                  {/* Desktop nav */}
+                  <div className="hidden md:flex items-center space-x-2 sm:space-x-4">
+                    <ul className="flex space-x-2 sm:space-x-4">
                       <li>
                         <Link href="/" passHref>
                           <Button asChild variant="ghost" size="sm">
@@ -92,11 +96,11 @@ export default function RootLayout({
                 </nav>
               </div>
             </header>
-            <main className="flex-1 container mx-auto py-8 px-4">
+            <main className="flex-1 container mx-auto py-8 px-2 sm:px-4 w-full">
               {children}
             </main>
-            <footer className="border-t py-6">
-              <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
+            <footer className="border-t py-6 w-full">
+              <div className="container mx-auto px-2 sm:px-4 text-center text-sm text-muted-foreground w-full">
                 &copy; {new Date().getFullYear()} Yardstick Finance. All rights reserved.
               </div>
             </footer>
