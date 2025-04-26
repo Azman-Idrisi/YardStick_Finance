@@ -2,11 +2,16 @@ import { NextRequest, NextResponse } from 'next/server';
 import { connectToMongoDB } from '@/app/lib/mongodb';
 import Budget from '@/app/lib/models/budget';
 
+export interface RouteSegment {
+  category: string;
+  month: string;
+}
+
 // GET /api/budgets/[category]/[month]
 export async function GET(
   request: NextRequest,
-  { params }: { params: { category: string; month: string } }
-) {
+  { params }: { params: RouteSegment }
+): Promise<NextResponse> {
   try {
     await connectToMongoDB();
     
@@ -43,8 +48,8 @@ export async function GET(
 // PUT /api/budgets/[category]/[month]
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { category: string; month: string } }
-) {
+  { params }: { params: RouteSegment }
+): Promise<NextResponse> {
   try {
     await connectToMongoDB();
     
@@ -97,8 +102,8 @@ export async function PUT(
 // DELETE /api/budgets/[category]/[month]
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { category: string; month: string } }
-) {
+  { params }: { params: RouteSegment }
+): Promise<NextResponse> {
   try {
     await connectToMongoDB();
     
