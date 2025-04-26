@@ -1,6 +1,10 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/finance-tracker';
+const MONGODB_URI = process.env.MONGODB_URI;
+
+if (!MONGODB_URI) {
+  throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
+}
 
 let cached = global as any;
 cached.mongoose = cached.mongoose || { conn: null, promise: null };
@@ -13,9 +17,13 @@ export async function connectToMongoDB() {
   if (!cached.mongoose.promise) {
     const opts = {
       bufferCommands: false,
+      maxPoolSize: 10,
+      serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 45000,
+      family: 4
     };
 
-    cached.mongoose.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
+    cached.mongoose.promise = mongoose.connect(MONGODB_URI!, opts).then((mongoose) => {
       return mongoose;
     });
   }
@@ -24,6 +32,7 @@ export async function connectToMongoDB() {
     cached.mongoose.conn = await cached.mongoose.promise;
   } catch (e) {
     cached.mongoose.promise = null;
+    console.error('MongoDB connection error:', e);
     throw e;
   }
 
