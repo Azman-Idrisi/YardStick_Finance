@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { formatCurrency, formatDate } from '@/app/utils/format';
 import { Button } from '@/components/ui/button';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, PieChart, Pie, Cell } from 'recharts';
+import { useRouter } from 'next/navigation';
+import { Pencil, Trash2 } from 'lucide-react';
 
 interface Transaction {
   _id: string;
@@ -36,6 +38,7 @@ export default function TransactionsPage() {
   const [categoryData, setCategoryData] = useState<CategoryData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const router = useRouter();
 
   useEffect(() => {
     fetchAndProcessTransactions();
@@ -305,7 +308,9 @@ export default function TransactionsPage() {
                   <th className="text-left py-2 px-2 md:px-4">Date</th>
                   <th className="text-left py-2 px-2 md:px-4">Description</th>
                   <th className="text-left py-2 px-2 md:px-4">Category</th>
+                  <th className="text-left py-2 px-2 md:px-4">Type</th>
                   <th className="text-left py-2 px-2 md:px-4">Amount</th>
+                  <th className="text-left py-2 px-2 md:px-4">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -314,10 +319,29 @@ export default function TransactionsPage() {
                     <td className="py-2 px-2 md:px-4">{formatDate(transaction.date)}</td>
                     <td className="py-2 px-2 md:px-4">{transaction.description}</td>
                     <td className="py-2 px-2 md:px-4">{transaction.category}</td>
+                    <td className="py-2 px-2 md:px-4 capitalize">{transaction.type}</td>
                     <td className={`py-2 px-2 md:px-4 ${
                       transaction.type === 'income' ? 'text-green-600' : 'text-red-600'
                     }`}>
                       {formatCurrency(transaction.amount)}
+                    </td>
+                    <td className="py-2 px-2 md:px-4">
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => router.push(`/transactions/edit/${transaction._id}`)}
+                          className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 p-1 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded"
+                          title="Edit transaction"
+                        >
+                          <Pencil size={18} />
+                        </button>
+                        <button
+                          onClick={() => handleDelete(transaction._id)}
+                          className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 p-1 hover:bg-red-50 dark:hover:bg-red-900/20 rounded"
+                          title="Delete transaction"
+                        >
+                          <Trash2 size={18} />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
